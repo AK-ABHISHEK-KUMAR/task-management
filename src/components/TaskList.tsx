@@ -6,10 +6,10 @@ const TaskItem = lazy(() => import("./TaskItem"));
 const Tabs = lazy(() => import("./Tabs"));
 
 export default function TaskList() {
-  const [option, setOption] = useState("Pending");
+  const [option, setOption] = useState<"Pending" | "Completed">("Pending");
 
-  const handleChange = (event: SelectChangeEvent) => {
-    setOption(event.target.value as string);
+  const handleChange = (event: SelectChangeEvent<string>) => {
+    setOption(event.target.value as "Pending" | "Completed");
   };
 
   return (

@@ -1,6 +1,11 @@
-import { FormControl, MenuItem, Select } from "@mui/material";
+import { FormControl, MenuItem, Select, SelectChangeEvent } from "@mui/material";
 
-export default function Tabs({ option, handleChange }) {
+interface TabsProps {
+  option: string;
+  handleChange: (event: SelectChangeEvent<string>) => void;
+}
+
+export default function Tabs({ option, handleChange }: TabsProps) {
   return (
     <FormControl>
       <Select

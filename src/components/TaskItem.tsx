@@ -9,26 +9,38 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { toDelete, updateStatus } from "../redux/feature/TaskSlice";
+import { InitialState, Task } from "../Task.interface";
 
-export default function TaskItem({ mode }) {
-  const [task, setTask] = useState([]);
+interface TaskItemProps {
+  mode: "Pending" | "Completed";
+}
 
-  useEffect(() => {
-    if (mode === "Pending") {
-      setTask(JSON.parse(localStorage.getItem("Ptasks")) || []);
+export default function TaskItem({ mode }: TaskItemProps) {
+  const { pendingTask, completedTask, deletingIds } = useSelector(
+    (state: InitialState) => state.task
+  );
+  const dispatch = useDispatch();
+
+  const handleSelection = (e: React.ChangeEvent<HTMLInputElement>, taskId: number) => {
+    if (e.target.checked) {
+      dispatch(toDelete([...deletingIds, taskId]));
     } else {
-      setTask(JSON.parse(localStorage.getItem("Ctasks")) || []);
+      dispatch(toDelete(deletingIds.filter((id: number) => id !== taskId)));
     }
-  }, [mode]);
+  };
 
-  const handleSelection = (taskId) => {};
+  const handleStatus = (taskId: number) => {
+    if (mode === "Completed") return;
+    dispatch(updateStatus(taskId));
+  };
 
-  const handleStatus = (taskId) => {};
+  const tasks = mode === "Pending" ? pendingTask : completedTask;
 
   return (
     <Box id={"pendingTaskTable"}>
-      {task.length === 0 ? (
+      {tasks.length === 0 ? (
         <Box
           component="img"
           src={mode === "Pending" ? "/assets/TaskDone.svg" : "/assets/Task.svg"}
@@ -47,19 +59,19 @@ export default function TaskItem({ mode }) {
               </TableRow>
             </TableHead>
             <TableBody>
-              {task?.map((val, ind) => (
-                <TableRow key={ind} hover>
+              {tasks.map((task: Task, index: number) => (
+                <TableRow key={index} hover>
                   <TableCell>
-                    <Checkbox onChange={() => handleSelection(val.id)} />
+                    <Checkbox onChange={(e) => handleSelection(e, task.id)} />
                   </TableCell>
-                  <TableCell>{ind + 1}</TableCell>
-                  <TableCell>{val.title}</TableCell>
+                  <TableCell>{index + 1}</TableCell>
+                  <TableCell>{task.title}</TableCell>
                   <TableCell
-                    title="Mark Done."
+                    title={mode === "Pending" ? "Mark Done." : "Done."}
                     sx={{ cursor: "pointer" }}
-                    onClick={() => handleStatus(val.id)}
+                    onClick={() => handleStatus(task.id)}
                   >
-                    {val.status ? "✅" : "❌"}
+                    {task.status ? "✅" : "❌"}
                   </TableCell>
                 </TableRow>
               ))}

@@ -9,24 +9,36 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
+import { useDispatch } from "react-redux";
 import * as z from "zod";
+import { addTodo } from "../redux/feature/TaskSlice";
 
 const schema = z.object({
   title: z.string().min(5, { message: "Required" }),
   status: z.boolean().default(false),
 });
 
-export default function AddTaskForm({ open, onClose }) {
+interface AddTaskFormProps {
+  open: boolean;
+  onClose: () => void;
+}
+
+export default function AddTaskForm({ open, onClose }: AddTaskFormProps) {
+  const dispatch = useDispatch();
+
   const {
+    control,
     formState: { errors },
     handleSubmit,
-  } = useForm({
+  } = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
   });
 
-  const handleAddTask = (data) => {
+  const handleAddTask = (data: z.infer<typeof schema>) => {
     console.log(data);
+    const taskWithId = { ...data, id: Date.now() };
+    dispatch(addTodo(taskWithId));
   };
 
   return (
@@ -50,12 +62,18 @@ export default function AddTaskForm({ open, onClose }) {
       <form onSubmit={handleSubmit(handleAddTask)}>
         <DialogContent>
           <Stack spacing={2} my={2}>
-            <TextField
-              label="Title"
+            <Controller
               name="title"
-              fullWidth
-              error={!!errors.title}
-              helperText={errors.title?.message}
+              control={control}
+              render={({ field }) => (
+                <TextField
+                  {...field}
+                  label="Title"
+                  fullWidth
+                  error={!!errors.title}
+                  helperText={errors.title?.message}
+                />
+              )}
             />
           </Stack>
         </DialogContent>
