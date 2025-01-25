@@ -1,10 +1,17 @@
-import { lazy } from "react";
-import { Card, CardHeader, CardContent, CardActions, Box } from "@mui/material";
+import { Box, Card, CardActions, CardContent, CardHeader, SelectChangeEvent } from "@mui/material";
+import { lazy, useState } from "react";
 
 const TaskControl = lazy(() => import("./TaskControl"));
+const TaskItem = lazy(() => import("./TaskItem"));
 const Tabs = lazy(() => import("./Tabs"));
 
 export default function TaskList() {
+  const [option, setOption] = useState("Pending");
+
+  const handleChange = (event: SelectChangeEvent) => {
+    setOption(event.target.value as string);
+  };
+
   return (
     <Card
       elevation={20}
@@ -20,7 +27,7 @@ export default function TaskList() {
       <CardHeader
         action={
           <Box display="flex" justifyContent="center" alignItems="center">
-            <Tabs />
+            <Tabs option={option} handleChange={handleChange} />
           </Box>
         }
       />
@@ -29,7 +36,9 @@ export default function TaskList() {
           flex: 1,
           overflowY: "auto",
         }}
-      ></CardContent>
+      >
+        <TaskItem mode={option} />
+      </CardContent>
       <CardActions
         sx={{
           display: "flex",
