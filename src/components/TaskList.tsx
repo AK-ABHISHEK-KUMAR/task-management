@@ -1,4 +1,12 @@
-import { Box, Card, CardActions, CardContent, CardHeader, SelectChangeEvent } from "@mui/material";
+import {
+  Box,
+  Card,
+  CardActions,
+  CardContent,
+  CardHeader,
+  SelectChangeEvent,
+  Typography,
+} from "@mui/material";
 import { lazy, useState } from "react";
 
 const TaskControl = lazy(() => import("./TaskControl"));
@@ -25,16 +33,49 @@ export default function TaskList() {
       }}
     >
       <CardHeader
+        title={
+          <Typography variant="h6" component="div" sx={{ fontWeight: "bold" }}>
+            Task Manager✍
+          </Typography>
+        }
+        subheader={
+          <Typography variant="subtitle1" color="text.secondary">
+            Manage your tasks efficiently
+          </Typography>
+        }
         action={
           <Box display="flex" justifyContent="center" alignItems="center">
             <Tabs option={option} handleChange={handleChange} />
           </Box>
         }
+        sx={{ pb: 0 }}
       />
       <CardContent
         sx={{
           flex: 1,
           overflowY: "auto",
+          mt: 2,
+          "&::-webkit-scrollbar": {
+            width: "8px",
+          },
+          "&::-webkit-scrollbar-track": {
+            background: "transparent",
+          },
+          "&::-webkit-scrollbar-thumb": {
+            backgroundColor: "#888",
+            borderRadius: "10px",
+            border: "2px solid transparent",
+            backgroundClip: "content-box",
+          },
+          "&::-webkit-scrollbar-thumb:hover": {
+            backgroundColor: "#555",
+          },
+          "&:hover::-webkit-scrollbar-thumb": {
+            backgroundColor: "#888",
+          },
+          "&::-webkit-scrollbar-button": {
+            display: "none",
+          },
         }}
       >
         <TaskItem mode={option} />
@@ -43,6 +84,7 @@ export default function TaskList() {
         sx={{
           display: "flex",
           justifyContent: "center",
+          mt: 2,
         }}
       >
         <TaskControl />

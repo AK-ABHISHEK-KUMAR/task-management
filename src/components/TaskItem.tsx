@@ -1,7 +1,6 @@
 import {
   Box,
   Checkbox,
-  Paper,
   Table,
   TableBody,
   TableCell,
@@ -48,14 +47,14 @@ export default function TaskItem({ mode }: TaskItemProps) {
           sx={{ width: "auto", height: "58vh", display: "block", mx: "auto" }}
         />
       ) : (
-        <TableContainer component={Paper} sx={{ mt: 4, mb: 4 }}>
+        <TableContainer>
           <Table>
             <TableHead>
               <TableRow>
                 <TableCell sx={{ width: 30 }}></TableCell>
-                <TableCell sx={{ width: 100 }}>Task No.</TableCell>
-                <TableCell>Title</TableCell>
-                <TableCell sx={{ width: 50 }}>Status</TableCell>
+                <TableCell sx={{ width: 100, fontWeight: "bold" }}>Task No.</TableCell>
+                <TableCell sx={{ fontWeight: "bold" }}>Title</TableCell>
+                <TableCell sx={{ width: 50, fontWeight: "bold" }}>Status</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
