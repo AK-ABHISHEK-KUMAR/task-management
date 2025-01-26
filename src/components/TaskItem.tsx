@@ -1,3 +1,5 @@
+import { useDispatch, useSelector } from "react-redux";
+
 import {
   Box,
   Checkbox,
@@ -8,7 +10,7 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
-import { useDispatch, useSelector } from "react-redux";
+
 import { toDelete, updateStatus } from "../redux/feature/TaskSlice";
 import { InitialState, Task } from "../Task.interface";
 
@@ -42,7 +44,7 @@ export default function TaskItem({ mode }: TaskItemProps) {
       {tasks.length === 0 ? (
         <Box
           component="img"
-          src={mode === "Pending" ? "/assets/TaskDone.svg" : "/assets/Task.svg"}
+          src={"/assets/TaskDone.svg"}
           alt="Task List"
           sx={{ width: "auto", height: "58vh", display: "block", mx: "auto" }}
         />
@@ -52,7 +54,7 @@ export default function TaskItem({ mode }: TaskItemProps) {
             <TableHead>
               <TableRow>
                 <TableCell sx={{ width: 30 }}></TableCell>
-                <TableCell sx={{ width: 100, fontWeight: "bold" }}>Task No.</TableCell>
+                {/* <TableCell sx={{ width: 50, fontWeight: "bold" }}>Task&nbsp;No.</TableCell> */}
                 <TableCell sx={{ fontWeight: "bold" }}>Title</TableCell>
                 <TableCell sx={{ width: 50, fontWeight: "bold" }}>Status</TableCell>
               </TableRow>
@@ -63,8 +65,8 @@ export default function TaskItem({ mode }: TaskItemProps) {
                   <TableCell>
                     <Checkbox onChange={(e) => handleSelection(e, task.id)} />
                   </TableCell>
-                  <TableCell>{index + 1}</TableCell>
-                  <TableCell>{task.title}</TableCell>
+                  {/* <TableCell>{index + 1}</TableCell> */}
+                  <TableCell sx={{ typography: "subtitle2" }}>{task.title}</TableCell>
                   <TableCell
                     title={mode === "Pending" ? "Mark Done." : "Done."}
                     sx={{ cursor: "pointer" }}

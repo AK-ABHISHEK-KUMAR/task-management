@@ -1,3 +1,5 @@
+import { lazy, useState } from "react";
+
 import {
   Box,
   Card,
@@ -7,7 +9,6 @@ import {
   SelectChangeEvent,
   Typography,
 } from "@mui/material";
-import { lazy, useState } from "react";
 
 const TaskControl = lazy(() => import("./TaskControl"));
 const TaskItem = lazy(() => import("./TaskItem"));
@@ -24,12 +25,15 @@ export default function TaskList() {
     <Card
       elevation={20}
       sx={{
-        m: 2,
+        my: 2,
         p: 2,
-        height: "calc(100vh - 4rem)",
+        height: { md: "calc(100vh - 5rem)" },
+        width: { md: "calc(100vw - 25rem)" },
         borderRadius: 3,
         display: "flex",
         flexDirection: "column",
+        background: "rgba(255, 255, 255, 0.7)",
+        backdropFilter: "blur(10px)",
       }}
     >
       <CardHeader

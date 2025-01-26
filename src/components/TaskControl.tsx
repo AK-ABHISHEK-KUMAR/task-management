@@ -1,6 +1,8 @@
-import { Button, ButtonGroup } from "@mui/material";
 import { lazy, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+
+import { Button, ButtonGroup } from "@mui/material";
+
 import { clearTodo, deleteTodo } from "../redux/feature/TaskSlice";
 import { InitialState } from "../Task.interface";
 
